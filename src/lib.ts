@@ -186,8 +186,10 @@ export async function openLibrary<Fns extends Record<string, FFIFunction>>(
 
   const zigCwd = join(bunCwd, config.zigCwd);
   const libraryPaths = await getLibraryPaths(zigCwd, packageName, name, platform, arch);
+  console.log("@@@ number of library paths", libraryPaths.length);
 
   for (const libraryPath of libraryPaths) {
+    console.log("@@@ libraryPath", libraryPath);
     if (!(await Bun.file(libraryPath).exists())) {
       continue;
     }
