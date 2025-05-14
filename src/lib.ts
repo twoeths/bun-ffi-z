@@ -148,10 +148,12 @@ export async function getLibraryPaths(
   const zigBuiltPath = join(zigCwd, 'zig-out', 'lib');
   console.log("@@@ zigBuiltPath", zigBuiltPath);
   const items = await readdir(zigBuiltPath);
-  console.log("@@@ all files in zigBuiltPath", localPath, items);
+  console.log("@@@ all files in zigBuiltPath", items);
 
   if (await Bun.file(localPath).exists()) {
     paths.push(localPath);
+  } else {
+    console.log("@@@ localPath file does not exist", localPath);
   }
 
   try {
@@ -165,6 +167,8 @@ export async function getLibraryPaths(
   } catch {
     // on local env, this will fall without a published package on native platform
   }
+
+  console.log("@@@ all library paths", paths);
 
   return paths;
 }
