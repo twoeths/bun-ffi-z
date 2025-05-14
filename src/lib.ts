@@ -1,4 +1,5 @@
 import {join} from 'node:path';
+import { readdir } from 'node:fs/promises';
 import {type Library, type FFIFunction, dlopen} from 'bun:ffi';
 import { getConfigFromPkgJson } from './config';
 
@@ -143,6 +144,12 @@ export async function getLibraryPaths(
   const libraryName = getLibraryName(name, platform);
   // local development
   const localPath = join(zigCwd, 'zig-out', 'lib', libraryName);
+  console.log("@@@ localPath", localPath);
+  const zigBuiltPath = join(zigCwd, 'zig-out', 'lib');
+  console.log("@@@ zigBuiltPath", zigBuiltPath);
+  const items = await readdir(zigBuiltPath);
+  console.log("@@@ all files in zigBuiltPath", localPath, items);
+
   if (await Bun.file(localPath).exists()) {
     paths.push(localPath);
   }
